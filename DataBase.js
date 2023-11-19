@@ -1,43 +1,43 @@
-const oracledb = require('oracledb');
+const mysql = require('mysql');
 
-let connection;
+let pool = null;
 
-const dbConfig = {
-    user: 'dbuser192352',
-    password: 'robot',
-    connectString: 'azza.gwangju.ac.kr:1521/orcl',
-    poolMax: 100,
-    poolMin: 5,
-    poolIncrement: 1,
-    queueTimeout: 60,
-};
-
-async function Init(){
-    try{
-        connection = await oracledb.getConnection(dbConfig);
-        console.log('<------- 오라클 데이터베이스 연결 성공 ------->');
-    }
-    catch(err){
-        console.log(err);
-        return;
-    }
-    
-    var sql;
-
-    sql = "select * from books";
-
-    const result = connection.execute(sql);
-    connection.close();
-    
+function DB_Connect(){
+    pool = mysql.createPool({
+        connectionLimit: 200,
+        host: 'sinervadb.cnlq6mwuy6ej.us-east-2.rds.amazonaws.com',
+        user: 'sinerva',
+        password: 'sinerva1234',
+        database: 'sinervaDB',
+        port: '3306',
+        charset: 'UTF8MB4'
+    });
+    console.log('[서버 로그] 데이터베이스 연동 성공!');
 }
-function ReturnedPool(conn){
-    conn.release(function(err){
-        if(err){
-            throw err;
+function DB_Close(){
+    pool.end((error) => {
+        if(error){
+            console.error('msg: ', error);
+            return;
         }
+        else{
+            console.log('데이터베이스 pool 종료');
+        }
+    })
+}
+async function DB_Query(query, value){
+    return await new Promise((resolve, reject) => {
+        pool.query(query, value, function(error, rows){
+            if(error){
+                reject(error);
+                return;
+            }
+            resolve(rows);
+        });
     });
 }
-
 module.exports = {
-    Init: Init
-}
+    Connect: DB_Connect,
+    Close: DB_Close,
+    Query: DB_Query
+};

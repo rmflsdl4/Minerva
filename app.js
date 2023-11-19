@@ -11,9 +11,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // 서버 구동
 const server = app.listen(3000, function(){
-    console.log('<------- 서버 구동 성공 [ 아래는 구동된 서버 주소 ] ------->');
+    console.log('[서버 로그] 서버 연결 성공! [ 아래는 구동된 서버 주소 ]');
     console.log("주소: " + server.address().address + ":3000");
-    database.Init();
+    database.Connect();
 });
 // 라우팅 설정
 
@@ -36,3 +36,9 @@ process.on('uncaughtException', (err) => {
     
     process.exit(1); // 0이 아닌 값은 비정상적인 종료를 나타냄
 });
+
+
+
+
+// 가상 경로 설정
+
