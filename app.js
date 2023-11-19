@@ -41,4 +41,10 @@ process.on('uncaughtException', (err) => {
 
 
 // 가상 경로 설정
+app.post('/book-load', async (req, res) => {
+    const sql = "SELECT ISBN, PUB, TITLE, PUB_YEAR, IMG_NAME, AUTHOR FROM book";
 
+    const bookData = await database.Query(sql);
+    console.log(bookData);
+    res.send(bookData);
+});

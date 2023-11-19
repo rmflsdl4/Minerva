@@ -5,11 +5,11 @@
         <link rel="stylesheet" href="./CSS/Style.css">
         <link rel="stylesheet" href="./CSS/Font.css">
         <script src="JavaScript/Page.js"></script>
-        <script src="BookManager.js"></script>
+        <script src="JavaScript/BookManager.js"></script>
         <script src="JavaScript/Detail.js"></script>
         <title>MainPage</title>
     </head>
-    <body onload="InitPage();">
+    <body onload="BookInit(InitPage);">
         <div id="TopContainer">
             <div id="LogoContainer">
                 <a href="Main.php"><img src="./Images/GJU_Logo.png"></a>
@@ -24,11 +24,12 @@
         </form>
         
         <div class="center">
-            <table id="BookTable">
-                <tr class="BookRow">
-                    
-                </tr>
-            </table>
+            <form action='#' method='get' onsubmit='alert("로봇이 도서를 운반중입니다. 잠시만 기다려주세요.");' id="BookForm">
+                <table id="BookTable">
+                    <tr id="BookRow">
+                    </tr>
+                </table>
+            </form>
         </div>
         <div class="center">
             <div id="pageContainer">

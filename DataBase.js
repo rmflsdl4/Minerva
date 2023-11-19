@@ -3,16 +3,22 @@ const mysql = require('mysql');
 let pool = null;
 
 function DB_Connect(){
-    pool = mysql.createPool({
-        connectionLimit: 200,
-        host: 'sinervadb.cnlq6mwuy6ej.us-east-2.rds.amazonaws.com',
-        user: 'sinerva',
-        password: 'sinerva1234',
-        database: 'sinervaDB',
-        port: '3306',
-        charset: 'UTF8MB4'
-    });
-    console.log('[서버 로그] 데이터베이스 연동 성공!');
+    try{
+        pool = mysql.createPool({
+            connectionLimit: 200,
+            host: 'sinervadb.caujbsdernjk.ap-northeast-2.rds.amazonaws.com',
+            user: 'sinerva',
+            password: 'sinerva1234',
+            database: 'sinervaDB',
+            port: '3306',
+            charset: 'UTF8MB4'
+        });
+        console.log('[서버 로그] 데이터베이스 연동 성공!');
+    }
+    catch(err){
+        console.error('[서버 로그] ', err);
+    }
+    
 }
 function DB_Close(){
     pool.end((error) => {
@@ -25,7 +31,7 @@ function DB_Close(){
         }
     })
 }
-async function DB_Query(query, value){
+async function DB_Query(query, value = null){
     return await new Promise((resolve, reject) => {
         pool.query(query, value, function(error, rows){
             if(error){

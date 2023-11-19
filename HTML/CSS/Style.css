@@ -57,14 +57,16 @@ html{
     color: gray;
     background-color: #F5F5F5;
 }
-#BookTable{
-    border-collapse: separate ;
-    border-spacing: 15px;
+#BookForm{
     width: 80%; 
     height: 230px;
     box-shadow: inset 0px 0px 12px #c0c0c0;
 }
-.BookRow{
+#BookTable{
+    border-collapse: separate ;
+    border-spacing: 15px;
+}
+#BookRow{
     width: 100%;
     height: 100%;
 }
