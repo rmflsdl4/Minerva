@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./CSS/Style.css">
+        <link rel="stylesheet" href="./CSS/Font.css">
+        <script src="JavaScript/Page.js"></script>
+        <script src="JavaScript/Detail.js"></script>
+        <title>MainPage</title>
+    </head>
+    <body onload="InitPage();">
+        <div id="TopContainer">
+            <div id="LogoContainer">
+                <a href="Main.php"><img src="./Images/GJU_Logo.png"></a>
+            </div>
+            <div id="RobotStateContainer">
+                <img src="./Images/Robot.png">
+                <span>사용 가능</span>
+            </div>
+        </div>
+        <form action="Main.php" method="post" class="center">
+            <input type="text" id="BookSearch" name="serach" placeholder="🔍︎ 제목 / 출판사 / 저자" autocomplete="off">
+        </form>
+        
+        <div class="center">
+            <table id="BookTable">
+                <tr class="BookRow">
+                    
+                </tr>
+            </table>
+        </div>
+        <div class="center">
+            <div id="pageContainer">
+                <span id="prePage" onclick="SetPreNum();">❮</span><span id="pageNum">1</span><span id="nextPage" onclick="SetNextNum();">❯</span>
+            </div>
+        </div>
+    </body>
+</html>
