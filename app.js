@@ -33,10 +33,14 @@ app.get('/', function(req, res){
 const clients = [];
 
 // WebSocket 연결 시
-wss.on('connection', (ws) => {
+wss.on('connection', (ws, request) => {
     // 클라이언트를 배열에 추가
     clients.push(ws);
-  
+    
+
+    const ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
+    
+    console.log(`새로운 클라이언트[${ip}] 접속`);
     // 클라이언트로부터 메시지 수신 시
     ws.on('message', (message) => {
       console.log(`Received message: ${message}`);
