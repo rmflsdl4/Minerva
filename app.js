@@ -43,7 +43,7 @@ wss.on('connection', (ws, request) => {
     console.log(`새로운 클라이언트[${ip}] 접속`);
     // 클라이언트로부터 메시지 수신 시
     ws.on('message', (message) => {
-      console.log(`Received message: ${message}`);
+      console.log(`[서버 로그] ${message}`);
   
       // 모든 클라이언트에게 메시지 전송
       clients.forEach((client) => {
