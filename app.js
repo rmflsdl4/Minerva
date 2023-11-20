@@ -2,21 +2,21 @@
 const express = require('express');
 const fs = require('fs');
 const database = require('./DataBase.js');
+const webSocket = require('ws');
+const http = require('http');
+
+let storedData;
 // 서버 설정
 const app = express();
+const server = http.createServer(app);
+const wss = new webSocket.Server({ server });
 
 app.use(express.static('HTML'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// 서버 구동
-const server = app.listen(3000, function(){
-    console.log('[서버 로그] 서버 연결 성공! [ 아래는 구동된 서버 주소 ]');
-    console.log("주소: " + server.address().address + ":3000");
-    database.Connect();
-});
-// 라우팅 설정
 
+// 라우팅 설정
 app.get('/', function(req, res){
     fs.readFile('HTML/Main.html', function(error, data){
         if(error){
@@ -28,6 +28,40 @@ app.get('/', function(req, res){
         }
     });
 });
+
+// 연결된 모든 클라이언트를 저장하는 배열
+const clients = [];
+
+// WebSocket 연결 시
+wss.on('connection', (ws) => {
+    // 클라이언트를 배열에 추가
+    clients.push(ws);
+  
+    // 클라이언트로부터 메시지 수신 시
+    ws.on('message', (message) => {
+      console.log(`Received message: ${message}`);
+  
+      // 모든 클라이언트에게 메시지 전송
+      clients.forEach((client) => {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(`PC2 received: ${message}`);
+            }
+        });
+    });
+  
+    // 클라이언트 연결 종료 시
+    ws.on('close', () => {
+        // 배열에서 클라이언트 제거
+        clients.splice(clients.indexOf(ws), 1);
+    });
+});
+
+// 서버 구동
+server.listen(3000, function(){
+    console.log('[서버 로그] 서버 연결 성공!');
+    database.Connect();
+});
+
 // 서버 오류 처리
 process.on('uncaughtException', (err) => {
     console.error('오류가 발생했습니다:', err);
@@ -45,6 +79,24 @@ app.post('/book-load', async (req, res) => {
     const sql = "SELECT ISBN, PUB, TITLE, PUB_YEAR, IMG_NAME, AUTHOR FROM book";
 
     const bookData = await database.Query(sql);
+    res.send(bookData);
+});
+
+app.get('/detailBook-load', async (req, res) => {
+    const isbn = req.query.isbn;
+    const sql = `SELECT ISBN, TITLE, AUTHOR, PUB, PUB_YEAR, 
+                CASE
+                    WHEN STATUS = 'T' THEN '대출 가능'
+                    WHEN STATUS = 'F' THEN '대출 불가능'
+                END AS STATUS, 
+                IMG_NAME
+                FROM book
+                WHERE isbn = ?`;
+    const bookData = await database.Query(sql, isbn);
     console.log(bookData);
     res.send(bookData);
+});
+
+app.post('/process-book', async (req, res) => {
+    storedData = req.body.bookISBN;
 });

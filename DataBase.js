@@ -9,7 +9,7 @@ function DB_Connect(){
             host: 'sinervadb.caujbsdernjk.ap-northeast-2.rds.amazonaws.com',
             user: 'sinerva',
             password: 'sinerva1234',
-            database: 'sinervaDB',
+            database: 'minerva',
             port: '3306',
             charset: 'UTF8MB4'
         });
