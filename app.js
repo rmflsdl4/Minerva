@@ -104,7 +104,7 @@ app.get('/detailBook-load', async (req, res) => {
     res.send(bookData);
 });
 
-app.post('/controller-book-load', async (req, res) => {
+app.get('/controller-book-load', async (req, res) => {
     const isbn = req.query.isbn;
     console.log(isbn);
     const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, SHELF_LOCATION || ' 책장' as SHELF_LOCATION
