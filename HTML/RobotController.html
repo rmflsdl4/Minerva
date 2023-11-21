@@ -19,71 +19,8 @@
         </div>
         <br>
         <div class="center">
-            <!-- <?php
-                // BarcodeScan.php에서 isbn이 스캔 됐을 때
-                $barcodeISBN = $_GET['scanValue'];
-
-                // if(!isset($barcodeISBN)){
-                //     echo "<br>!!!! 존재하지 않는 ISBN 값 !!!!";
-                // }
-                // else{
-                //     // BarcodeScan.php 에서 스캔했을 때 값 받아와서 처리할 것
-                //     echo "<br>로봇이 스캔한 ISBN 번호: " . $barcodeISBN;
-                // }
-                // 북 데이터 가져오는 로직 ( 임시 )
-                if($selectBookISBN != null || $barcodeISBN != null){
-                    $ISBN = $selectBookISBN != null ? $selectBookISBN : $barcodeISBN;
-                }
-
-                if ($ISBN !== null) {
-                    
-                    // 파이썬으로 요청 보내기
-                    $paythonScriptName = "MainController.py";
-                    $pythonScriptPath = __DIR__ . "/" . $paythonScriptName;
-                    $command = "python " . $pythonScriptPath . " " . $ISBN . " 2>&1"; 
-                    $output = array();
-                    $returnVar;
-                    exec($command, $output, $returnVar);
-                    $ISBN = implode("\n", $output);
-                    if ($returnVar === 0) {
-                        // // 성공적으로 실행된 경우
-                        // $outputString = implode("\n", $output);
-                        // echo "<br>" . $outputString;
-                        // $decodedString = stripcslashes($outputString);
-                        $conn = oci_connect('dbuser192352', 'robot', 'azza.gwangju.ac.kr/orcl', 'AL32UTF8');
-
-                        $query = "SELECT TITLE, AUTHOR, PUB, PUB_YEAR, SHELF_LOCATION || ' 책장' as SHELF_LOCATION
-                                    FROM BOOKS
-                                    INNER JOIN BOOK_LOCATION
-                                    ON BOOKS.ISBN = BOOK_LOCATION.ISBN
-                                    WHERE BOOKS.ISBN = :isbn";
-                        $stmt = oci_parse($conn, $query);
-                        oci_bind_by_name($stmt, ":isbn", $ISBN);
-                        oci_execute($stmt);
-                        echo "<div id='bookDiv'>";
-                        if ($row = oci_fetch_assoc($stmt)) {
-                            echo "<h2 id='bookTitle'>📖 {$row['TITLE']}</h2>
-                                    <p><span id='bookAuthor'>🔖 저자 ｜ {$row['AUTHOR']}</span></p>
-                                    <p><span id='bookPub'>🔖 출판사 ｜ {$row['PUB']}</span></p>
-                                    <p><span id='bookPubYear'>🔖 출판년도 ｜ {$row['PUB_YEAR']}</span></p>
-                                    <p><span id='bookLocation'>🌍 책 위치 ｜ {$row['SHELF_LOCATION']}</span></p>";
-                        }
-                        echo "</div>";
-                        oci_free_statement($stmt);
-                        oci_close($conn);
-
-                    }
-                    else {
-                        // 실행 중 오류가 발생한 경우
-                        echo "<br>"."오류 발생. 반환 코드: " . $returnVar;
-                        echo "<br>". "오류 메시지: " . implode("\n", $output);
-                    }
-                }
-
-
-                // 혹시 모르니 초기화로 예외처리
-                $selectBookISBN = $barcodeISBN = null;
-            ?> -->
+            <div id='bookDiv'>
+            </div>
         </div>
     </body>
 </html>
