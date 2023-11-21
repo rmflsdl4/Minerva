@@ -107,7 +107,7 @@ app.get('/detailBook-load', async (req, res) => {
 app.get('/controller-book-load', async (req, res) => {
     const isbn = req.query.isbn;
     console.log(isbn);
-    const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, SHELF_LOCATION || ' 책장' as SHELF_LOCATION
+    const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, CONCAT(SHELF_LOCATION,' 책장') as SHELF_LOCATION
                 FROM book
                 INNER JOIN book_location
                 ON book.ISBN = book_location.ISBN
