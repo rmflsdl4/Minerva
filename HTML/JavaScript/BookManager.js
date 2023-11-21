@@ -35,7 +35,7 @@ async function DetailBookLoad(isbn){
 }
 async function ControllerBookLoad(isbn){
     return await new Promise((resolve, reject) => {
-        fetch(`/controller-book-load=${isbn}`, {
+        fetch(`/controller-book-load?isbn=${isbn}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
