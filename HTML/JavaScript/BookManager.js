@@ -105,6 +105,7 @@ async function DetailBookInit(){
     bookElement.innerHTML = book;
 }
 async function ControllerOutputBook(isbn){
+    console.log(isbn);
     const bookElement = document.getElementById('bookDiv');
     let book = "";
 
