@@ -33,6 +33,23 @@ async function DetailBookLoad(isbn){
         });
     });
 }
+async function ControllerBookLoad(isbn){
+    return await new Promise((resolve, reject) => {
+        fetch(`/controller-book-load=${isbn}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            resolve(data);
+        })
+        .catch(error => {
+            reject(error);
+        });
+    });
+}
 
 // 북 세팅
 async function BookInit(pageSortFunc){
@@ -84,6 +101,22 @@ async function DetailBookInit(){
                 book += `<p><span id='bookTitle' style='color:red'>🚩 ${bookData[0].STATUS}</span></p>`;
             }
             `</div>`;
+
+    bookElement.innerHTML = book;
+}
+async function ControllerOutputBook(isbn){
+    const bookElement = document.getElementById('bookDiv');
+    let book = "";
+
+    const bookData = await ControllerBookLoad(isbn);
+
+    book += `<div id='bookDiv'>
+                <h2 id='bookTitle'>📖 ${bookData[0].TITLE}</h2>
+                <p><span id='bookAuthor'>🔖 저자 ｜ ${bookData[0].AUTHOR}</span></p>
+                <p><span id='bookPub'>🔖 출판사 ｜ ${bookData[0].PUB}</span></p>
+                <p><span id='bookPubYear'>🔖 출판년도 ｜ ${bookData[0].PUB_YEAR}</span></p>
+                <p><span id='bookLocation'>🌍 책 위치 ｜ ${bookData[0].SHELF_LOCATION}</span></p>";
+            </div>`;
 
     bookElement.innerHTML = book;
 }

@@ -5,7 +5,6 @@ const database = require('./DataBase.js');
 const webSocket = require('ws');
 const http = require('http');
 
-let storedData;
 // 서버 설정
 const app = express();
 const server = http.createServer(app);
@@ -46,11 +45,8 @@ wss.on('connection', (ws, request) => {
         const data = JSON.parse(message);
         console.log(data.message.toString('utf8') + `   |   요청한 클라이언트 : ${ip}`);
         console.log(`[서버 로그] ISBN - ${data.ISBN}`);
-        console.log(clients.length);
         // 모든 클라이언트에게 메시지 전송
         clients.forEach((client) => {
-            console.log(client.readyState === webSocket.OPEN);
-            console.log(client !== ws);
             // client !== ws는 메세지를 보낸 클라이언트가 아니라면
             if (client !== ws && client.readyState === webSocket.OPEN) {
                 console.log("[서버 로그] 클라이언트에게 메세지 보냄");
@@ -108,6 +104,14 @@ app.get('/detailBook-load', async (req, res) => {
     res.send(bookData);
 });
 
-app.post('/process-book', async (req, res) => {
-    storedData = req.body.bookISBN;
+app.post('/controller-book-load', async (req, res) => {
+    const isbn = req.query.isbn;
+    const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, SHELF_LOCATION || ' 책장' as SHELF_LOCATION
+                FROM book
+                INNER JOIN book_location
+                ON book.ISBN = book_location.ISBN
+                WHERE book.ISBN = ?`
+                
+    const bookData = await database.Query(sql, isbn);
+    res.send(bookData);
 });
