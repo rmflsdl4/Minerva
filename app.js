@@ -50,7 +50,7 @@ wss.on('connection', (ws, request) => {
             // client !== ws는 메세지를 보낸 클라이언트가 아니라면
             if (client !== ws && client.readyState === webSocket.OPEN) {
                 console.log("[서버 로그] 클라이언트에게 메세지 보냄");
-                client.send(`가져올 책 ISBN - ${data.ISBN}`);
+                client.send(data.ISBN);
             }
         });
     });
