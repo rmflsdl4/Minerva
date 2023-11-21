@@ -43,12 +43,18 @@ wss.on('connection', (ws, request) => {
     console.log(`새로운 클라이언트[${ip}] 접속`);
     // 클라이언트로부터 메시지 수신 시
     ws.on('message', (message) => {
-      console.log(`[서버 로그] ${message}`);
-  
-      // 모든 클라이언트에게 메시지 전송
-      clients.forEach((client) => {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(`PC2 received: ${message}`);
+        const data = JSON.parse(message);
+        console.log(data.message.toString('utf8') + `   |   요청한 클라이언트 : ${ip}`);
+        console.log(`[서버 로그] ISBN - ${data.ISBN}`);
+        console.log(clients.length);
+        // 모든 클라이언트에게 메시지 전송
+        clients.forEach((client) => {
+            console.log(client.readyState === webSocket.OPEN);
+            console.log(client !== ws);
+            // client !== ws는 메세지를 보낸 클라이언트가 아니라면
+            if (client !== ws && client.readyState === webSocket.OPEN) {
+                console.log("[서버 로그] 클라이언트에게 메세지 보냄");
+                client.send(`가져올 책 ISBN - ${data.ISBN}`);
             }
         });
     });
@@ -57,6 +63,7 @@ wss.on('connection', (ws, request) => {
     ws.on('close', () => {
         // 배열에서 클라이언트 제거
         clients.splice(clients.indexOf(ws), 1);
+        console.log(clients.length);
     });
 });
 
