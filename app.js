@@ -113,5 +113,6 @@ app.post('/controller-book-load', async (req, res) => {
                 WHERE book.ISBN = ?`
                 
     const bookData = await database.Query(sql, isbn);
+    console.log(bookData);
     res.send(bookData);
 });

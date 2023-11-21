@@ -109,7 +109,7 @@ async function ControllerOutputBook(isbn){
     let book = "";
 
     const bookData = await ControllerBookLoad(isbn);
-
+    console.log(bookData);
     book += `<h2 id='bookTitle'>📖 ${bookData[0].TITLE}</h2>
             <p><span id='bookAuthor'>🔖 저자 ｜ ${bookData[0].AUTHOR}</span></p>
             <p><span id='bookPub'>🔖 출판사 ｜ ${bookData[0].PUB}</span></p>
