@@ -58,6 +58,7 @@ wss.on('connection', (ws, request) => {
         console.log(data.message.toString('utf8') + `   |   요청한 클라이언트 : ${ip}`);
         console.log(`[서버 로그] ISBN - ${data.ISBN}`);
         isbnData = data.ISBN;
+        console.log(`[서버 로그] 현재 저장된 전역 ISBN: ${isbnData}`)
 
 
         // 모든 클라이언트에게 메시지 전송
