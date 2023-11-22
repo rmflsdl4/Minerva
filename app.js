@@ -137,9 +137,9 @@ app.get('/request-data', async (req, res) => {
         WHERE book.ISBN = ?`
             
         const bookData = await database.Query(sql, tempData);
-        console.log(bookData);
-        const data = { isbn: tempData };
+        
+        const jsonData = JSON.stringify(bookData);
         isbnData = null;
-        res.json(data);
+        res.json(jsonData);
     }
 })
