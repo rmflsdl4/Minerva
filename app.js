@@ -4,7 +4,6 @@ const fs = require('fs');
 const database = require('./DataBase.js');
 const webSocket = require('ws');
 const http = require('http');
-const { Client } = require('ssh2');
 
 // 서버 설정
 const app = express();
@@ -20,8 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 const raspberryPiUrl = {
     host: '172.30.81.244',
     port: 22,
-    username: 'ubuntu',
-    password: '1234',
+    username: 'admin',
+    password: 'admin1234',
 };
 const conn = new Client();
 
@@ -41,6 +40,9 @@ app.get('/', function(req, res){
 // 연결된 모든 클라이언트를 저장하는 배열
 const clients = [];
 
+// ISBN 전역변수
+let isbnData;
+
 // WebSocket 연결 시
 wss.on('connection', (ws, request) => {
     // 클라이언트를 배열에 추가
@@ -55,19 +57,8 @@ wss.on('connection', (ws, request) => {
         const data = JSON.parse(message);
         console.log(data.message.toString('utf8') + `   |   요청한 클라이언트 : ${ip}`);
         console.log(`[서버 로그] ISBN - ${data.ISBN}`);
+        isbnData = data.ISBN;
 
-        conn.on('ready', function () {
-            console.log('SSH connection established');
-          
-            // 연결이 성공하면 여기서 메시지를 출력할 수 있습니다.
-            console.log('Connected to Raspberry Pi!');
-
-        }).on('error', function (err) {
-            console.error('SSH connection error:', err.message);
-          
-            // 연결이 실패했을 때 여기서 메시지를 출력할 수 있습니다.
-            console.log('Failed to connect to Raspberry Pi.');
-        }).connect(raspberryPiUrl);
 
         // 모든 클라이언트에게 메시지 전송
         clients.forEach((client) => {
@@ -141,3 +132,13 @@ app.get('/controller-book-load', async (req, res) => {
     console.log(bookData);
     res.send(bookData);
 });
+
+app.get('/request-data', (req, res) => {
+    console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
+    if(isbnData !== null){
+        const tempData = isbnData;
+        const data = { message: tempData };
+        isbnData = null;
+        res.json(data);
+    }
+})
