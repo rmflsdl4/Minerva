@@ -15,15 +15,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-// 라즈베리파이
-const raspberryPiUrl = {
-    host: '172.30.81.244',
-    port: 22,
-    username: 'admin',
-    password: 'admin1234',
-};
-const conn = new Client();
-
 // 라우팅 설정
 app.get('/', function(req, res){
     fs.readFile('HTML/Main.html', function(error, data){
