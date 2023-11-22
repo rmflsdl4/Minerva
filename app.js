@@ -125,11 +125,20 @@ app.get('/controller-book-load', async (req, res) => {
     res.send(bookData);
 });
 
-app.get('/request-data', (req, res) => {
+app.get('/request-data', async (req, res) => {
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
     if(isbnData !== null){
         const tempData = isbnData;
-        const data = { message: tempData };
+
+        const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, CONCAT(SHELF_LOCATION,' 책장') as SHELF_LOCATION
+        FROM book
+        INNER JOIN book_location
+        ON book.ISBN = book_location.ISBN
+        WHERE book.ISBN = ?`
+            
+        const bookData = await database.Query(sql, tempData);
+        console.log(bookData);
+        const data = { isbn: tempData };
         isbnData = null;
         res.json(data);
     }
