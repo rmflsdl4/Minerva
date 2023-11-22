@@ -20,8 +20,8 @@ app.use(express.urlencoded({ extended: false }));
 const raspberryPiUrl = {
     host: '172.30.81.244',
     port: 22,
-    username: 'admin',
-    password: 'admin1234',
+    username: 'ubuntu',
+    password: '1234',
 };
 const conn = new Client();
 
