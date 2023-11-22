@@ -138,7 +138,7 @@ app.get('/request-data', async (req, res) => {
             
         const bookData = await database.Query(sql, tempData);
         
-        const jsonData = JSON.stringify(bookData);
+        const jsonData = JSON.stringify(bookData[0]);
         isbnData = null;
         res.json(jsonData);
     }
