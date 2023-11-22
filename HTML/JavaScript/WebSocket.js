@@ -1,4 +1,4 @@
-const socket = new WebSocket('ws://13.124.233.137:3000');
+const socket = new WebSocket('ws://43.201.115.66:3000');
 
 // 서버로부터 메시지 수신 시
 socket.addEventListener('message', (event) => {
