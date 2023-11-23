@@ -155,6 +155,6 @@ async function RecusionRequest(cnt){
 }
 app.get('/request-data', async (req, res) => {
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
-    const data = await RecusionRequest();
+    const data = await RecusionRequest(0);
     res.json(data);
 });
