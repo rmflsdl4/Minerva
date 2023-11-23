@@ -35,7 +35,7 @@ app.get('/', function(req, res){
 const clients = [];
 
 // ISBN 전역변수
-let isbnData;
+let isbnData = null;
 
 // WebSocket 연결 시
 wss.on('connection', (ws, request) => {
