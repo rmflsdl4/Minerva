@@ -4,6 +4,7 @@ const fs = require('fs');
 const database = require('./DataBase.js');
 const webSocket = require('ws');
 const http = require('http');
+const { setTimeout } = require('timers/promises');
 
 // 사용자 지정 모듈 로드
 
@@ -141,10 +142,10 @@ async function RecusionRequest(){
         isbnData = null;
         return bookData[0];
     }
-    setInterval(RecusionRequest, 3000);
+    setTimeout(RecusionRequest, 3000);
 }
 
-app.get('/request-data', async (req, res) => {
+app.get('/request-data', (req, res) => {
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
     const data = RecusionRequest();
     res.json(data);
