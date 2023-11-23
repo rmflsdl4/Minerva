@@ -145,14 +145,14 @@ async function RecusionRequest(cnt){
     }
     if(cnt < 4){
         console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData)
-        setTimeout(RecusionRequest, 3000, cnt + 1);
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        return await RecusionRequest(cnt + 1);
     }
     else{
         console.log("[서버 로그] 12초 동안 isbn 값을 기다렸지만 값이 오지 않아 함수 호출 종료!");
     }
-
-    
 }
+
 app.get('/request-data', async (req, res) => {
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
     const data = await RecusionRequest(0);
