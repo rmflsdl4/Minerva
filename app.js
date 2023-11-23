@@ -129,7 +129,7 @@ app.get('/controller-book-load', async (req, res) => {
 });
 
 async function RecusionRequest(){
-    const cnt = 0;
+    let cnt = 0;
     if(isbnData !== null){
         console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
         const tempData = isbnData;
