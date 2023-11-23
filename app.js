@@ -4,7 +4,6 @@ const fs = require('fs');
 const database = require('./DataBase.js');
 const webSocket = require('ws');
 const http = require('http');
-const { setTimeout } = require('timers/promises');
 
 // 사용자 지정 모듈 로드
 
