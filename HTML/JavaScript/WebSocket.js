@@ -1,4 +1,5 @@
-const socket = new WebSocket('ws://3.34.177.157:3000');
+const connectIp = "54.180.85.12";
+const socket = new WebSocket(`ws://${connectIp}:3000`);
 
 // 서버로부터 메시지 수신 시
 socket.addEventListener('message', (event) => {
