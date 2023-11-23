@@ -5,6 +5,8 @@ const database = require('./DataBase.js');
 const webSocket = require('ws');
 const http = require('http');
 
+// 사용자 지정 모듈 로드
+
 // 서버 설정
 const app = express();
 const server = http.createServer(app);
@@ -125,8 +127,7 @@ app.get('/controller-book-load', async (req, res) => {
     res.send(bookData);
 });
 
-app.get('/request-data', async (req, res) => {
-    console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
+async function RecusionRequest(){
     if(isbnData !== null){
         const tempData = isbnData;
 
@@ -138,6 +139,13 @@ app.get('/request-data', async (req, res) => {
             
         const bookData = await database.Query(sql, tempData);
         isbnData = null;
-        res.json(bookData[0]);
+        return bookData[0];
     }
+    setInterval(RecusionRequest, 3000);
+}
+
+app.get('/request-data', async (req, res) => {
+    console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
+    const data = RecusionRequest();
+    res.json(data);
 })
