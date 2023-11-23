@@ -1,4 +1,4 @@
-const connectIp = "54.180.85.12";
+const connectIp = "54.180.119.53";
 const socket = new WebSocket(`ws://${connectIp}:3000`);
 
 // 서버로부터 메시지 수신 시
