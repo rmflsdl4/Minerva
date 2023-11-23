@@ -143,7 +143,7 @@ async function RecusionRequest(cnt){
         isbnData = null;
         return bookData[0];
     }
-    if(cnt < 3){
+    if(cnt < 4){
         console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData)
         setTimeout(RecusionRequest, 3000, cnt + 1);
     }
@@ -156,5 +156,6 @@ async function RecusionRequest(cnt){
 app.get('/request-data', async (req, res) => {
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
     const data = await RecusionRequest(0);
+    console.log("[서버 로그] data 값: " + data);
     res.json(data);
 });
