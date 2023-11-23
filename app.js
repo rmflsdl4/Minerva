@@ -4,10 +4,7 @@ const fs = require('fs');
 const database = require('./DataBase.js');
 const webSocket = require('ws');
 const http = require('http');
-const EventEmitter = require('events');
 
-// 모듈 프로퍼티 
-const myEmitter = new EventEmitter();
 
 // 사용자 지정 모듈 로드
 
@@ -132,6 +129,7 @@ app.get('/controller-book-load', async (req, res) => {
 });
 
 async function RecusionRequest(){
+    const cnt = 0;
     if(isbnData !== null){
         console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
         const tempData = isbnData;
@@ -146,6 +144,16 @@ async function RecusionRequest(){
         isbnData = null;
         return bookData[0];
     }
+    if(cnt < 3){
+        console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData)
+        setTimeout(RecusionRequest, 3000);
+        cnt++;
+    }
+    else{
+        console.log("[서버 로그] 12초 동안 isbn 값을 기다렸지만 값이 오지 않아 함수 호출 종료!");
+    }
+
+    
 }
 myEmitter.on('variableChanged', (value) => {
     console.log("[서버 로그] 서버의 ISBN 값이 변경됨! 변경된 값 : " + isbnData);
