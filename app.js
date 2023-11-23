@@ -155,10 +155,6 @@ async function RecusionRequest(){
 
     
 }
-myEmitter.on('variableChanged', (value) => {
-    console.log("[서버 로그] 서버의 ISBN 값이 변경됨! 변경된 값 : " + isbnData);
-});
-
 app.get('/request-data', async (req, res) => {
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
     const data = await RecusionRequest();
