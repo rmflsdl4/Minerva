@@ -142,6 +142,7 @@ async function RecusionRequest(){
         isbnData = null;
         return bookData[0];
     }
+    console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData)
     setTimeout(RecusionRequest, 3000);
 }
 
