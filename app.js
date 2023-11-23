@@ -4,6 +4,10 @@ const fs = require('fs');
 const database = require('./DataBase.js');
 const webSocket = require('ws');
 const http = require('http');
+const EventEmitter = require('events');
+
+// 모듈 프로퍼티 
+const myEmitter = new EventEmitter();
 
 // 사용자 지정 모듈 로드
 
@@ -142,12 +146,13 @@ async function RecusionRequest(){
         isbnData = null;
         return bookData[0];
     }
-    console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData)
-    setTimeout(RecusionRequest, 3000);
 }
+myEmitter.on('variableChanged', (value) => {
+    console.log("[서버 로그] 서버의 ISBN 값이 변경됨! 변경된 값 : " + isbnData);
+});
 
 app.get('/request-data', async (req, res) => {
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
     const data = await RecusionRequest();
     res.json(data);
-})
+});
