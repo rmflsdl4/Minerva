@@ -147,8 +147,8 @@ async function RecusionRequest(){
     setTimeout(RecusionRequest, 3000);
 }
 
-app.get('/request-data', (req, res) => {
+app.get('/request-data', async (req, res) => {
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
-    const data = RecusionRequest();
+    const data = await RecusionRequest();
     res.json(data);
 })
