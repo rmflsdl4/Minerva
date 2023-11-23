@@ -109,9 +109,13 @@ app.get('/detailBook-load', async (req, res) => {
                 IMG_NAME
                 FROM book
                 WHERE isbn = ?`;
-    const bookData = await database.Query(sql, isbn);
-    console.log(bookData);
-    res.send(bookData);
+    try{
+        const bookData = await database.Query(sql, isbn);
+        res.send(bookData);
+    }
+    catch(err){
+        console.log("[서버 로그] 오류 발생: " + err);
+    }
 });
 
 app.get('/controller-book-load', async (req, res) => {
@@ -122,10 +126,15 @@ app.get('/controller-book-load', async (req, res) => {
                 INNER JOIN book_location
                 ON book.ISBN = book_location.ISBN
                 WHERE book.ISBN = ?`
-                
-    const bookData = await database.Query(sql, isbn);
-    console.log(bookData);
-    res.send(bookData);
+    
+    try{
+        const bookData = await database.Query(sql, isbn);
+        res.send(bookData);
+    }
+    catch(err){
+        console.log("[서버 로그] 오류 발생: " + err);
+    }
+    
 });
 
 async function RecusionRequest(cnt){
@@ -138,10 +147,15 @@ async function RecusionRequest(cnt){
         INNER JOIN book_location
         ON book.ISBN = book_location.ISBN
         WHERE book.ISBN = ?`
-            
-        const bookData = await database.Query(sql, tempData);
-        isbnData = null;
-        return bookData[0];
+        try{
+            const bookData = await database.Query(sql, tempData);
+        
+            isbnData = null;
+            return bookData[0];
+        }
+        catch(err){
+            console.log("[서버 로그] 오류 발생: " + err);
+        }
     }
     if(cnt < 4){
         console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData)
@@ -152,6 +166,22 @@ async function RecusionRequest(cnt){
         console.log("[서버 로그] 12초 동안 isbn 값을 기다렸지만 값이 오지 않아 함수 호출 종료!");
     }
 }
+app.post('/book-search', async (req, res) => {
+    const searchValue = req.body.serach;
+    console.log("[서버 로그] 사용자가 입력한 도서 검색어 : " + searchValue);
+
+    const sql = `SELECT ISBN, TITLE, AUTHOR, PUB, PUB_YEAR, STATUS, IMG_NAME
+                FROM book WHERE TITLE LIKE '%?%' OR AUTHOR LIKE '%?%'OR PUB LIKE '%?%'OR PUB_YEAR LIKE '%?%'`;
+    const values = [searchValue, searchValue, searchValue, searchValue];
+    try{
+        const bookData = await database.Query(sql, values);
+    
+        res.send(bookData);
+    }
+    catch(err){
+        console.log("[서버 로그] 오류 발생: " + err);
+    }
+});
 
 app.get('/request-data', async (req, res) => {
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
