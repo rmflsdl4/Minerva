@@ -130,6 +130,7 @@ app.get('/controller-book-load', async (req, res) => {
 
 async function RecusionRequest(){
     if(isbnData !== null){
+        console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
         const tempData = isbnData;
 
         const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, CONCAT(SHELF_LOCATION,' 책장') as SHELF_LOCATION
