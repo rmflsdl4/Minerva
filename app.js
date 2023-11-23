@@ -128,8 +128,7 @@ app.get('/controller-book-load', async (req, res) => {
     res.send(bookData);
 });
 
-async function RecusionRequest(){
-    let cnt = 0;
+async function RecusionRequest(cnt){
     if(isbnData !== null){
         console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
         const tempData = isbnData;
@@ -146,8 +145,7 @@ async function RecusionRequest(){
     }
     if(cnt < 3){
         console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData)
-        setTimeout(RecusionRequest, 3000);
-        cnt++;
+        setTimeout(RecusionRequest, 3000, cnt + 1);
     }
     else{
         console.log("[서버 로그] 12초 동안 isbn 값을 기다렸지만 값이 오지 않아 함수 호출 종료!");
