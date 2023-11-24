@@ -20,10 +20,17 @@
                 <span>사용 가능</span>
             </div>
         </div>
-        <form action="/book-search" method="post" class="center">
+        <form action="/book-search" method="post" class="center" id="BookForm">
             <input type="text" id="BookSearch" name="serach" placeholder="🔍︎ 제목 / 출판사 / 저자" autocomplete="off">
         </form>
-        
+        <script>
+            // 책 검색 이벤트 리스너
+            document.getElementById('BookForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                console.log('Submit event captured');
+                SearchBook();
+            });
+        </script>
         <div class="center">
             <table id="BookTable">
                 <tr id="BookRow">

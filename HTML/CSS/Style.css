@@ -68,6 +68,9 @@ html{
     width: 100%;
     height: 100%;
 }
+.BookData{
+    width: 100px;
+}
 .BookData > form{
     width: 20%;
     position: relative;

@@ -12,8 +12,7 @@ function InitPage(){
     prePage = document.getElementById("prePage");
     nextPage = document.getElementById("nextPage");
     pageNum = document.getElementById("pageNum");
-    pageCount = Math.ceil(posts.length / 5);
-    console.log(pageCount);
+    pageCount = posts.length > 5 ? Math.ceil(posts.length / 5) : 1;
     PageLoad();
     
     prePage.style.visibility = "hidden";

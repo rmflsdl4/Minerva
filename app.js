@@ -167,12 +167,12 @@ async function RecusionRequest(cnt){
     }
 }
 app.post('/book-search', async (req, res) => {
-    const searchValue = req.body.serach;
+    const searchValue = req.body.search;
     console.log("[서버 로그] 사용자가 입력한 도서 검색어 : " + searchValue);
 
     const sql = `SELECT ISBN, TITLE, AUTHOR, PUB, PUB_YEAR, STATUS, IMG_NAME
-                FROM book WHERE TITLE LIKE '%?%' OR AUTHOR LIKE '%?%'OR PUB LIKE '%?%'OR PUB_YEAR LIKE '%?%'`;
-    const values = [searchValue, searchValue, searchValue, searchValue];
+                FROM book WHERE TITLE LIKE ? OR AUTHOR LIKE ? OR PUB LIKE ? OR PUB_YEAR LIKE ?`;
+    const values = [`%${searchValue}%`, `%${searchValue}%`, `%${searchValue}%`, `%${searchValue}%`];
     try{
         const bookData = await database.Query(sql, values);
     
