@@ -222,6 +222,7 @@ async function RecusionBarcodeScan(cnt){
 }
 app.get('/barcode-scan', async (req, res) =>{
     barcodeValue = req.query.scanValue;
+    console.log("[서버 로그] 라즈베리파이 파이썬barcode 스크립트로부터 요청 들어옴!");
     const data = await RecusionBarcodeScan(0);
     console.log("[서버 로그] barcodeScan 값: " + data);
     res.json(data);
