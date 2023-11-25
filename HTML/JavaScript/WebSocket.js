@@ -1,4 +1,4 @@
-const connectIp = "54.180.119.53";
+const connectIp = "3.39.9.46";
 const socket = new WebSocket(`ws://${connectIp}:3000`);
 
 // 서버로부터 메시지 수신 시
@@ -13,4 +13,6 @@ function sendMessage(isbn) {
     console.log("sendMessage 실행");
     // 서버에 메시지 전송
     socket.send(jsonString);
+
+    alert("로봇이 도서를 운반중입니다. 잠시만 기다려주세요.");
 }

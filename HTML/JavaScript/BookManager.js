@@ -87,12 +87,12 @@ async function BookInit(pageSortFunc){
     let bookCnt = 0;
     for (let i = 0; i < bookData.length; i++) {
         book += `<th class='BookData'>
-                    <form action='/none' method='post' onclick='alert("로봇이 도서를 운반중입니다. 잠시만 기다려주세요.");'>
+                    <form action='/none' method='post'>
                         <input type='hidden' value=${bookData[i].ISBN} name='bookISBN'>
                         <img src='./Images/${bookData[i].IMG_NAME}.jpg' alt='${bookData[i].TITLE}' onclick='PageChange(${bookData[i].ISBN});'><span class='imtext'>🔍︎</span>
                         <input type='button' value='${bookData[i].TITLE}'>
                         <br>
-                        <input type='button' value='↪ 가져오기' onclick='sendMessage(${bookData[i].ISBN});'>
+                        <input type='button' value='↪ 가져오기' onclick='sendMessage(${bookData[i].ISBN}); alert("로봇이 도서를 운반중입니다. 잠시만 기다려주세요.");'>
                     </form>
                 </th>`;
         bookCnt++;
@@ -154,7 +154,7 @@ async function SearchBook(){
     let bookCnt = 0;
     for (let i = 0; i < bookData.length; i++) {
         book += `<th class='BookData'>
-                    <form action='/none' method='post' onclick='alert("로봇이 도서를 운반중입니다. 잠시만 기다려주세요.");'>
+                    <form action='/none' method='post'>
                         <input type='hidden' value=${bookData[i].ISBN} name='bookISBN'>
                         <img src='./Images/${bookData[i].IMG_NAME}.jpg' alt='${bookData[i].TITLE}' onclick='PageChange(${bookData[i].ISBN});'><span class='imtext'>🔍︎</span>
                         <input type='button' value='${bookData[i].TITLE}'>
@@ -170,4 +170,4 @@ async function SearchBook(){
         book += `<th class='BookData'></th>`;
     }
     bookElement.innerHTML = book;
-}o0
+}
