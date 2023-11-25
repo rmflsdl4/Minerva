@@ -184,7 +184,10 @@ app.post('/book-search', async (req, res) => {
     }
 });
 
+let piConfig = [];
 app.get('/request-data', async (req, res) => {
+    piConfig = [req, res];
+    console.log(piConfig[0], piConfig[1]);
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
     const data = await RecusionRequest(0);
     console.log("[서버 로그] data 값: " + data);
