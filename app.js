@@ -157,7 +157,8 @@ async function RecusionRequest(cnt){
             console.log("[서버 로그] 오류 발생: " + err);
         }
     }
-    if(cnt < 4){
+    // cnt < 반복할 횟수
+    if(cnt < 20){
         console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData)
         await new Promise(resolve => setTimeout(resolve, 3000));
         return await RecusionRequest(cnt + 1);

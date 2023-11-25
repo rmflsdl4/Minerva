@@ -74,9 +74,6 @@ async function SearchBookLoad(){
 }
 
 
-
-
-
 // 북 세팅
 async function BookInit(pageSortFunc){
     const bookElement = document.getElementById('BookRow');
