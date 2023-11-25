@@ -154,43 +154,43 @@ app.post('/book-search', async (req, res) => {
     }
 });
 
-// app.get('/request-data', async (req, res) => {
-//     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
-//     const data = await RecusionRequest(0);
-//     console.log("[서버 로그] pythonRequestData 값: " + data);
-//     res.json(data);
-// });
+app.get('/request-data', async (req, res) => {
+    console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
+    const data = await RecusionRequest(0);
+    console.log("[서버 로그] pythonRequestData 값: " + data);
+    res.json(data);
+});
 
-// async function RecusionRequest(cnt){
-//     if(isbnData !== null){
-//         console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
-//         const tempData = isbnData;
+async function RecusionRequest(cnt){
+    if(isbnData !== null){
+        console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
+        const tempData = isbnData;
 
-//         const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, CONCAT(SHELF_LOCATION,' 책장') as SHELF_LOCATION
-//         FROM book
-//         INNER JOIN book_location
-//         ON book.ISBN = book_location.ISBN
-//         WHERE book.ISBN = ?`
-//         try{
-//             const bookData = await database.Query(sql, tempData);
+        const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, CONCAT(SHELF_LOCATION,' 책장') as SHELF_LOCATION
+        FROM book
+        INNER JOIN book_location
+        ON book.ISBN = book_location.ISBN
+        WHERE book.ISBN = ?`
+        try{
+            const bookData = await database.Query(sql, tempData);
         
-//             isbnData = null;
-//             return bookData[0];
-//         }
-//         catch(err){
-//             console.log("[서버 로그] 오류 발생: " + err);
-//         }
-//     }
-//     // cnt < 반복할 횟수
-//     if(cnt < 20){
-//         console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData);
-//         await new Promise(resolve => setTimeout(resolve, 3000));
-//         return await RecusionRequest(cnt + 1);
-//     }
-//     else{
-//         console.log("[서버 로그] 60초 동안 isbn 값을 기다렸지만 값이 오지 않아 함수 호출 종료!");
-//     }
-// }
+            isbnData = null;
+            return bookData[0];
+        }
+        catch(err){
+            console.log("[서버 로그] 오류 발생: " + err);
+        }
+    }
+    // cnt < 반복할 횟수
+    if(cnt < 20){
+        console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData);
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        return await RecusionRequest(cnt + 1);
+    }
+    else{
+        console.log("[서버 로그] 60초 동안 isbn 값을 기다렸지만 값이 오지 않아 함수 호출 종료!");
+    }
+}
 
 app.get('/barcode-scan', async (req, res) =>{
     //barcodeValue = req.query.scanValue;
@@ -224,7 +224,7 @@ async function RecusionBarcodeScan(cnt){
     if(cnt < 20){
         console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + barcodeValue);
         await new Promise(resolve => setTimeout(resolve, 3000));
-        return await RecusionRequest(cnt + 1);
+        return await RecusionBarcodeScan(cnt + 1);
     }
     else{
         console.log("[서버 로그] 60초 동안 바코드 스캔을 기다렸지만 값이 오지 않아 함수 호출 종료!");
