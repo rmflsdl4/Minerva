@@ -36,7 +36,7 @@ const clients = [];
 
 // ISBN 전역변수
 let isbnData = null;
-
+let barcodeValue = null;
 // WebSocket 연결 시
 wss.on('connection', (ws, request) => {
     // 클라이언트를 배열에 추가
@@ -137,6 +137,22 @@ app.get('/controller-book-load', async (req, res) => {
     
 });
 
+app.post('/book-search', async (req, res) => {
+    const searchValue = req.body.search;
+    console.log("[서버 로그] 사용자가 입력한 도서 검색어 : " + searchValue);
+
+    const sql = `SELECT ISBN, TITLE, AUTHOR, PUB, PUB_YEAR, STATUS, IMG_NAME
+                FROM book WHERE TITLE LIKE ? OR AUTHOR LIKE ? OR PUB LIKE ? OR PUB_YEAR LIKE ?`;
+    const values = [`%${searchValue}%`, `%${searchValue}%`, `%${searchValue}%`, `%${searchValue}%`];
+    try{
+        const bookData = await database.Query(sql, values);
+    
+        res.send(bookData);
+    }
+    catch(err){
+        console.log("[서버 로그] 오류 발생: " + err);
+    }
+});
 async function RecusionRequest(cnt){
     if(isbnData !== null){
         console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
@@ -159,37 +175,54 @@ async function RecusionRequest(cnt){
     }
     // cnt < 반복할 횟수
     if(cnt < 20){
-        console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData)
+        console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData);
         await new Promise(resolve => setTimeout(resolve, 3000));
         return await RecusionRequest(cnt + 1);
     }
     else{
-        console.log("[서버 로그] 12초 동안 isbn 값을 기다렸지만 값이 오지 않아 함수 호출 종료!");
+        console.log("[서버 로그] 60초 동안 isbn 값을 기다렸지만 값이 오지 않아 함수 호출 종료!");
     }
 }
-app.post('/book-search', async (req, res) => {
-    const searchValue = req.body.search;
-    console.log("[서버 로그] 사용자가 입력한 도서 검색어 : " + searchValue);
-
-    const sql = `SELECT ISBN, TITLE, AUTHOR, PUB, PUB_YEAR, STATUS, IMG_NAME
-                FROM book WHERE TITLE LIKE ? OR AUTHOR LIKE ? OR PUB LIKE ? OR PUB_YEAR LIKE ?`;
-    const values = [`%${searchValue}%`, `%${searchValue}%`, `%${searchValue}%`, `%${searchValue}%`];
-    try{
-        const bookData = await database.Query(sql, values);
-    
-        res.send(bookData);
-    }
-    catch(err){
-        console.log("[서버 로그] 오류 발생: " + err);
-    }
-});
-
-let piConfig = [];
 app.get('/request-data', async (req, res) => {
-    piConfig = [req, res];
-    console.log(piConfig[0], piConfig[1]);
     console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
     const data = await RecusionRequest(0);
-    console.log("[서버 로그] data 값: " + data);
+    console.log("[서버 로그] pythonRequestData 값: " + data);
+    res.json(data);
+});
+
+async function RecusionBarcodeScan(cnt){
+    if(barcodeValue !== null){
+        console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
+        const tempData = barcodeValue;
+
+        const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, CONCAT(SHELF_LOCATION,' 책장') as SHELF_LOCATION
+        FROM book
+        INNER JOIN book_location
+        ON book.ISBN = book_location.ISBN
+        WHERE book.ISBN = ?`
+        try{
+            const bookData = await database.Query(sql, tempData);
+        
+            barcodeValue = null;
+            return bookData[0];
+        }
+        catch(err){
+            console.log("[서버 로그] 오류 발생: " + err);
+        }
+    }
+    // cnt < 반복할 횟수
+    if(cnt < 20){
+        console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + barcodeValue);
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        return await RecusionRequest(cnt + 1);
+    }
+    else{
+        console.log("[서버 로그] 60초 동안 바코드 스캔을 기다렸지만 값이 오지 않아 함수 호출 종료!");
+    }
+}
+app.get('/barcode-scan', async (req, res) =>{
+    barcodeValue = req.query.scanValue;
+    const data = await RecusionBarcodeScan(0);
+    console.log("[서버 로그] barcodeScan 값: " + data);
     res.json(data);
 });
