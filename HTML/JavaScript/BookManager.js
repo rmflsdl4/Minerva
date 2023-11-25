@@ -92,7 +92,7 @@ async function BookInit(pageSortFunc){
                         <img src='./Images/${bookData[i].IMG_NAME}.jpg' alt='${bookData[i].TITLE}' onclick='PageChange(${bookData[i].ISBN});'><span class='imtext'>🔍︎</span>
                         <input type='button' value='${bookData[i].TITLE}'>
                         <br>
-                        <input type='button' value='↪ 가져오기' onclick='sendMessage(${bookData[i].ISBN}); alert("로봇이 도서를 운반중입니다. 잠시만 기다려주세요.");'>
+                        <input type='button' value='↪ 가져오기' onclick='sendMessage(${bookData[i].ISBN});'>
                     </form>
                 </th>`;
         bookCnt++;
