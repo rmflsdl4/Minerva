@@ -153,6 +153,14 @@ app.post('/book-search', async (req, res) => {
         console.log("[서버 로그] 오류 발생: " + err);
     }
 });
+
+app.get('/request-data', async (req, res) => {
+    console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
+    const data = await RecusionRequest(0);
+    console.log("[서버 로그] pythonRequestData 값: " + data);
+    res.json(data);
+});
+
 async function RecusionRequest(cnt){
     if(isbnData !== null){
         console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
@@ -183,10 +191,12 @@ async function RecusionRequest(cnt){
         console.log("[서버 로그] 60초 동안 isbn 값을 기다렸지만 값이 오지 않아 함수 호출 종료!");
     }
 }
-app.get('/request-data', async (req, res) => {
-    console.log("[서버 로그] 라즈베리파이 파이썬 스크립트로부터 요청 들어옴!");
-    const data = await RecusionRequest(0);
-    console.log("[서버 로그] pythonRequestData 값: " + data);
+
+app.get('/barcode-scan', async (req, res) =>{
+    barcodeValue = req.query.scanValue;
+    console.log("[서버 로그] 라즈베리파이 파이썬barcode 스크립트로부터 요청 들어옴!");
+    const data = await RecusionBarcodeScan(0);
+    console.log("[서버 로그] barcodeScan 값: " + data);
     res.json(data);
 });
 
@@ -220,10 +230,4 @@ async function RecusionBarcodeScan(cnt){
         console.log("[서버 로그] 60초 동안 바코드 스캔을 기다렸지만 값이 오지 않아 함수 호출 종료!");
     }
 }
-app.get('/barcode-scan', async (req, res) =>{
-    barcodeValue = req.query.scanValue;
-    console.log("[서버 로그] 라즈베리파이 파이썬barcode 스크립트로부터 요청 들어옴!");
-    const data = await RecusionBarcodeScan(0);
-    console.log("[서버 로그] barcodeScan 값: " + data);
-    res.json(data);
-});
+
