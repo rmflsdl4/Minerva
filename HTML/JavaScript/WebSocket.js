@@ -66,7 +66,7 @@ async function SetRobotStateText(){
 function SetBarcode(){
     const barcodeValue = document.getElementById('barcode').value;
     
-    fetch(`/set-barcode?barcodeValue=${barcodeValue}`, {
+    fetch(`/set-barcode?scanValue=${barcodeValue}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
