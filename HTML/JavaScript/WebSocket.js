@@ -7,8 +7,8 @@ socket.addEventListener('message', (event) => {
 });
 
 // 클라이언트에게 메시지 전송
-function sendMessage(isbn) {
-    const state = GetRobotState();
+async function sendMessage(isbn) {
+    const state = await GetRobotState();
     if(state){
         const data = { message: '[클라이언트 요청] 가져오기 버튼을 클릭했음 !', ISBN: isbn };
         const jsonString = JSON.stringify(data);
@@ -48,17 +48,9 @@ function SetRobotState(stateValue){
         },
         body: JSON.stringify({ state: stateValue }),
     })
-    
-    .then(response => response.json())
-    .then(data => {
-        resolve(data);
-    })
-    .catch(error => {
-        reject(error);
-    });
 }
-function SetRobotStateText(){
-    const state = GetRobotState();
+async function SetRobotStateText(){
+    const state = await GetRobotState();
 
     const stateText = document.getElementById('robotStateText');
 
