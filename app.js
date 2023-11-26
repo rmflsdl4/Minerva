@@ -208,6 +208,7 @@ app.get('/barcode-scan', async (req, res) =>{
 app.get('/set-barcode', async (req, res) => {
     barcodeValue = req.query.scanValue;
     console.log("[서버 로그] 바코드 값: " + barcodeValue);
+    req.send();
 })
 
 async function RecusionBarcodeScan(cnt){
@@ -258,3 +259,32 @@ app.post('/set-robot-state', (req, res) => {
     robotState = state;
     console.log("[서버 로그] 현재 로봇 상태값: " + robotState);
 });
+
+let weightDetact = false;
+
+app.get('/weight-detact', async (req, res) =>{
+    weightDetact = true;
+    res.send(weightDetact);
+});
+
+app.get('/request-wd', async (req, res) => {
+    console.log("[서버 로그] 무게 감지 신호 요청이 들어옴!");
+    
+    const data = await RecusionWeightDetact(0);
+    res.json(data);
+});
+async function RecusionWeightDetact(cnt){
+    if(weightDetact !== null && weightDetact == true){
+        return weightDetact;
+    }
+    // cnt < 반복할 횟수
+    if(cnt < 20){
+        console.log("[서버 로그] 무게 감지 재요청");
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        return await RecusionBarcodeScan(cnt + 1);
+    }
+    else{
+        console.log("[서버 로그] 60초 동안 무게 감지를 기다렸지만 값이 오지 않아 함수 호출 종료!");
+    }
+}
+
