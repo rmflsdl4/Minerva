@@ -72,5 +72,5 @@ function SetBarcode(){
           'Content-Type': 'application/json'
         }
     });
-    document.getElementById('barcode').value = '';
+    document.getElementById('BarcodeForm').reset();
 }
