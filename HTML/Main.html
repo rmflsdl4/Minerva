@@ -10,7 +10,7 @@
         <script src="JavaScript/WebSocket.js"></script>
         <title>MainPage</title>
     </head>
-    <body onload="BookInit(InitPage);">
+    <body onload="BookInit(InitPage); RobotStateCheck();">
         <div id="TopContainer">
             <div id="LogoContainer">
                 <a href="Main.html"><img src="./Images/GJU_Logo.png"></a>
@@ -19,7 +19,6 @@
                 <img src="./Images/Robot.png">
                 <span id="robotStateText">사용 가능</span>
             </div>
-            <input type="hidden" value="true" id="robotStateValue">
         </div> 
         <form action="/book-search" method="post" class="center" id="BookForm">
             <input type="text" id="BookSearch" name="serach" placeholder="🔍︎ 제목 / 출판사 / 저자" autocomplete="off">

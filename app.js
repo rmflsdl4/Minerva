@@ -17,6 +17,7 @@ app.use(express.static('HTML'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+let robotState = true;
 
 // 라우팅 설정
 app.get('/', function(req, res){
@@ -231,3 +232,12 @@ async function RecusionBarcodeScan(cnt){
     }
 }
 
+app.post('/get-robot-state', async (req, res) => {
+    console.log("[서버 로그] 현재 로봇 상태값: " + robotState);
+    res.send(robotState);
+});
+app.post('/set-robot-state', (req, res) => {
+    const state = req.body.state;
+    robotState = state;
+    console.log("[서버 로그] 현재 로봇 상태값: " + robotState);
+});
