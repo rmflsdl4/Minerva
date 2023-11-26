@@ -32,6 +32,12 @@ app.get('/', function(req, res){
     });
 });
 
+function BookStateUpdate(isbn){
+    const sql = "UPDATE book SET STATUS = 'F' WHERE ISBN = ?";
+
+    database.Query(sql, isbn);
+}
+
 // 연결된 모든 클라이언트를 저장하는 배열
 const clients = [];
 
@@ -53,8 +59,8 @@ wss.on('connection', (ws, request) => {
         console.log(data.message.toString('utf8') + `   |   요청한 클라이언트 : ${ip}`);
         console.log(`[서버 로그] ISBN - ${data.ISBN}`);
         isbnData = data.ISBN;
-        console.log(`[서버 로그] 현재 저장된 전역 ISBN: ${isbnData}`)
-
+        console.log(`[서버 로그] 현재 저장된 전역 ISBN: ${isbnData}`);
+        BookStateUpdate(isbnData);
 
         // 모든 클라이언트에게 메시지 전송
         clients.forEach((client) => {
@@ -73,6 +79,7 @@ wss.on('connection', (ws, request) => {
         console.log(clients.length);
     });
 });
+
 
 // 서버 구동
 server.listen(3000, function(){
