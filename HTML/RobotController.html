@@ -19,8 +19,8 @@
         </div>
         <br>
         <div class="center">
-            <form action='/set-barcode' method='post'>
-                <input type='text' value='' name='scanValue' autofocus>
+            <form action='/set-barcode' method='post' onsubmit="SetBarcode();">
+                <input type='text' value='' name='scanValue' id="barcode" autofocus>
             </form>
             <div id='bookDiv'>
             </div>

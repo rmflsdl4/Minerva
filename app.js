@@ -207,7 +207,7 @@ app.get('/barcode-scan', async (req, res) =>{
     res.json(data);
 });
 app.get('/set-barcode', async (req, res) => {
-    barcodeValue = req.body.scanValue;
+    barcodeValue = req.query.barcodeValue;
     console.log("[서버 로그] 바코드 값: " + barcodeValue);
 })
 

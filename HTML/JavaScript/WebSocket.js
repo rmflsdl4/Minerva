@@ -62,3 +62,14 @@ async function SetRobotStateText(){
         stateText.textContent = '도서 운반 중';
     }
 }
+
+function SetBarcode(){
+    const barcodeValue = document.getElementById('barcode').value;
+    
+    fetch(`/set-barcode?barcodeValue=${barcodeValue}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    })
+}
