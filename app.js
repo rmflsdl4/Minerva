@@ -262,8 +262,12 @@ app.post('/set-robot-state', (req, res) => {
 
 let weightDetact = false;
 
-app.get('/weight-detact', async (req, res) =>{
+app.get('/weight-detact-success', async (req, res) =>{
     weightDetact = true;
+    res.send(weightDetact);
+});
+app.get('/weight-detact-fail', async (req, res) =>{
+    weightDetact = false;
     res.send(weightDetact);
 });
 
