@@ -9,7 +9,6 @@ socket.addEventListener('message', (event) => {
 // 클라이언트에게 메시지 전송
 async function sendMessage(isbn) {
     const state = await GetRobotState();
-    SetRobotStateText();
     if(state){
         const data = { message: '[클라이언트 요청] 가져오기 버튼을 클릭했음 !', ISBN: isbn };
         const jsonString = JSON.stringify(data);
@@ -18,6 +17,7 @@ async function sendMessage(isbn) {
         // 서버에 메시지 전송
         socket.send(jsonString);
         SetRobotState(false);
+        SetRobotStateText();
         alert("로봇이 도서를 운반중입니다. 잠시만 기다려주세요.");
     }
     else{
