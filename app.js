@@ -207,7 +207,8 @@ app.get('/barcode-scan', async (req, res) =>{
     res.json(data);
 });
 app.get('/set-barcode', async (req, res) => {
-    barcodeValue = req.query.scanValue;
+    barcodeValue = req.body.scanValue;
+    console.log("[서버 로그] 바코드 값: " + barcodeValue);
 })
 
 async function RecusionBarcodeScan(cnt){
@@ -232,7 +233,7 @@ async function RecusionBarcodeScan(cnt){
     }
     // cnt < 반복할 횟수
     if(cnt < 20){
-        console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + barcodeValue);
+        console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  barcode 상태: " + barcodeValue);
         await new Promise(resolve => setTimeout(resolve, 3000));
         return await RecusionBarcodeScan(cnt + 1);
     }
