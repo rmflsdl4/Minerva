@@ -71,5 +71,6 @@ function SetBarcode(){
         headers: {
           'Content-Type': 'application/json'
         }
-    })
+    });
+    document.getElementById('barcode').value = '';
 }
