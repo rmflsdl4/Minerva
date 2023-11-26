@@ -19,9 +19,16 @@
         </div>
         <br>
         <div class="center">
-            <form action='/set-barcode' method='post' onsubmit="SetBarcode();">
+            <form action='/set-barcode' method='post' id="BarcodeForm">
                 <input type='text' value='' name='scanValue' id="barcode" autofocus>
             </form>
+            <script>
+                document.getElementById('BarcodeForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    console.log('Submit event captured');
+                    SetBarcode();
+                });
+            </script>
             <div id='bookDiv'>
             </div>
         </div>

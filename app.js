@@ -182,7 +182,6 @@ async function RecusionRequest(cnt){
         try{
             const bookData = await database.Query(sql, tempData);
         
-            isbnData = null;
             return bookData[0];
         }
         catch(err){
@@ -213,23 +212,31 @@ app.get('/set-barcode', async (req, res) => {
 
 async function RecusionBarcodeScan(cnt){
     if(barcodeValue !== null){
-        console.log(['[서버 로그] isbn 값이 존재하여 해당 책 데이터 반환!']);
-        const tempData = barcodeValue;
+        const compare = isbnData == bookData;
+        if(compare){
+            console.log('[서버 로그] 요청한 책을 찾음 !');
+            const tempData = barcodeValue;
 
-        const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, CONCAT(SHELF_LOCATION,' 책장') as SHELF_LOCATION
-        FROM book
-        INNER JOIN book_location
-        ON book.ISBN = book_location.ISBN
-        WHERE book.ISBN = ?`
-        try{
-            const bookData = await database.Query(sql, tempData);
+            const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, CONCAT(SHELF_LOCATION,' 책장') as SHELF_LOCATION
+            FROM book
+            INNER JOIN book_location
+            ON book.ISBN = book_location.ISBN
+            WHERE book.ISBN = ?`
+            try{
+                const bookData = await database.Query(sql, tempData);
+            
+                isbnData = null;
+                barcodeValue = null;
+                return bookData[0];
+            }
+            catch(err){
+                console.log("[서버 로그] 오류 발생: " + err);
+            }
+        }
+        else{
+            console.log('[서버 로그] 요청한 책과 스캔한 책이 다름 !');
+        }
         
-            barcodeValue = null;
-            return bookData[0];
-        }
-        catch(err){
-            console.log("[서버 로그] 오류 발생: " + err);
-        }
     }
     // cnt < 반복할 횟수
     if(cnt < 20){
