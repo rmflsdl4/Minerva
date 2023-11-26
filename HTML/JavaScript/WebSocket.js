@@ -51,7 +51,7 @@ function SetRobotState(stateValue){
 }
 async function SetRobotStateText(){
     const state = await GetRobotState();
-
+    console.log(typeof state);
     const stateText = document.getElementById('robotStateText');
 
     if(state){
