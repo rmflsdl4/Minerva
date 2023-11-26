@@ -24,6 +24,8 @@
             </form>
             <script>
                 document.getElementById('BarcodeForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+
                     SetBarcode();
                 });
             </script>
