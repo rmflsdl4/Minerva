@@ -281,7 +281,7 @@ async function RecusionWeightDetact(cnt){
     if(cnt < 20){
         console.log("[서버 로그] 무게 감지 재요청");
         await new Promise(resolve => setTimeout(resolve, 3000));
-        return await RecusionBarcodeScan(cnt + 1);
+        return await RecusionWeightDetact(cnt + 1);
     }
     else{
         console.log("[서버 로그] 60초 동안 무게 감지를 기다렸지만 값이 오지 않아 함수 호출 종료!");
