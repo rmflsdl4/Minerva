@@ -17,9 +17,10 @@
             </div>
             <div id="RobotStateContainer">
                 <img src="./Images/Robot.png">
-                <span>사용 가능</span>
+                <span id="robotStateText">사용 가능</span>
             </div>
-        </div>
+            <input type="hidden" value="true" id="robotStateValue">
+        </div> 
         <form action="/book-search" method="post" class="center" id="BookForm">
             <input type="text" id="BookSearch" name="serach" placeholder="🔍︎ 제목 / 출판사 / 저자" autocomplete="off">
         </form>

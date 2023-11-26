@@ -8,11 +8,20 @@ socket.addEventListener('message', (event) => {
 
 // 클라이언트에게 메시지 전송
 function sendMessage(isbn) {
-    const data = { message: '[클라이언트 요청] 가져오기 버튼을 클릭했음 !', ISBN: isbn };
-    const jsonString = JSON.stringify(data);
-    console.log("sendMessage 실행");
-    // 서버에 메시지 전송
-    socket.send(jsonString);
+    const state = document.getElementById('robotStateValue').value === 'true'; 
+    const stateText = document.getElementById('robotStateText');
+    if(state){
+        const data = { message: '[클라이언트 요청] 가져오기 버튼을 클릭했음 !', ISBN: isbn };
+        const jsonString = JSON.stringify(data);
+        console.log("sendMessage 실행");
+        // 서버에 메시지 전송
+        socket.send(jsonString);
+    
+        alert("로봇이 도서를 운반중입니다. 잠시만 기다려주세요.");
 
-    alert("로봇이 도서를 운반중입니다. 잠시만 기다려주세요.");
+        stateText.textContent = '도서 운반 중';
+    }
+    else{
+        alert("현재 사용 가능한 로봇이 없습니다. 잠시만 기다려주세요.");
+    }
 }
