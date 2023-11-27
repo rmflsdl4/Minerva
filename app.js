@@ -182,6 +182,7 @@ async function RecusionRequest(cnt){
         try{
             const bookData = await database.Query(sql, tempData);
             isbnData = null;
+            console.log(bookData[0]);
             return bookData[0];
         }
         catch(err){
@@ -228,6 +229,7 @@ async function RecusionBarcodeScan(cnt){
             
                 isbnData = null;
                 barcodeValue = null;
+                console.log(bookData[0]);
                 return bookData[0];
             }
             catch(err){
