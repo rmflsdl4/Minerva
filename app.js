@@ -255,8 +255,8 @@ app.post('/get-robot-state', async (req, res) => {
     res.send(robotState);
 });
 app.post('/set-robot-state', (req, res) => {
-    const state = req.body.state;
-    robotState = state;
+    //const state = req.body.state;
+    //robotState = state;
     console.log("[서버 로그] 현재 로봇 상태값: " + robotState);
 });
 
