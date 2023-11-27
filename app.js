@@ -206,10 +206,11 @@ app.get('/barcode-scan', async (req, res) =>{
     console.log("[서버 로그] barcodeScan 값: " + data);
     res.json(data);
 });
+
 app.get('/set-barcode', async (req, res) => {
     barcodeValue = req.query.scanValue;
     console.log("[서버 로그] 바코드 값: " + barcodeValue);
-    res.send();
+    res.send('success-set-barcode');
 })
 
 async function RecusionBarcodeScan(cnt){
