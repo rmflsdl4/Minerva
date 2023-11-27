@@ -21,10 +21,10 @@
         <div class="center">
             <form id="BarcodeForm" action="RobotController.html" method="get">
                 <input type='text' value='' name='scanValue' id="barcode" autofocus>
+                <input type="submit" value="submit">
             </form>
             <script>
                 document.getElementById('BarcodeForm').addEventListener('submit', function(event) {
-                    event.preventDefault();
 
                     SetBarcode();
                 });
