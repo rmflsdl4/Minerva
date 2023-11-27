@@ -21,12 +21,15 @@
         <div class="center">
             <form id="BarcodeForm" action="RobotController.html" method="get">
                 <input type='text' value='' name='scanValue' id="barcode" autofocus>
-                <input type="submit" value="submit">
             </form>
             <script>
-                document.getElementById('BarcodeForm').addEventListener('submit', function(event) {
-
-                    SetBarcode();
+                document.getElementById('BarcodeForm').addEventListener('keydown', function(event) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault(); // 기본 엔터 동작 취소
+                        this.submit(); // 폼 서브밋
+                        SetBarcode();
+                    }
+                    
                 });
             </script>
             <div id='bookDiv'>
