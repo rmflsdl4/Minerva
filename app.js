@@ -181,7 +181,6 @@ async function RecusionRequest(cnt){
         WHERE book.ISBN = ?`
         try{
             const bookData = await database.Query(sql, tempData);
-            isbnData = null;
             console.log(bookData[0]);
             return bookData[0];
         }
