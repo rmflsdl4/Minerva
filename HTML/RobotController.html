@@ -24,8 +24,8 @@
             </form>
             <script>
                 document.getElementById('BarcodeForm').addEventListener('keydown', function(event) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault(); // 기본 엔터 동작 취소
+                    if (event.key === 'Enter') {
+                        event.preventDefault(); // 기본 엔터 동작 취소
                         this.submit(); // 폼 서브밋
                         SetBarcode();
                     }
