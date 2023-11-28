@@ -282,6 +282,16 @@ app.get('/weight-detact-success', async (req, res) =>{
 app.get('/weight-detact-fail', async (req, res) =>{
     weightDetact = false;
     res.send(weightDetact);
+
+    clients.forEach((client) => {
+        // client !== ws는 메세지를 보낸 클라이언트가 아니라면
+        if (client.readyState === webSocket.OPEN && weightDetact) {
+            console.log("[서버 로그] weight 클라이언트에게 메세지 보냄");
+            const messages = [isbnData];
+
+            client.send(JSON.stringify(messages));
+        }
+    });
 });
 
 app.get('/request-wd', async (req, res) => {
