@@ -1,10 +1,7 @@
 const connectIp = "3.39.9.46";
 const socket = new WebSocket(`ws://${connectIp}:3000`);
 
-// 서버로부터 메시지 수신 시
-socket.addEventListener('message', (event) => {
-    ControllerOutputBook(event.data);
-});
+
 
 // 클라이언트에게 메시지 전송
 async function sendMessage(isbn) {
@@ -74,3 +71,4 @@ function SetBarcode(){
     });
     document.getElementById('barcode').value = '';
 }
+

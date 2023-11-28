@@ -257,8 +257,8 @@ app.post('/get-robot-state', async (req, res) => {
     res.send(robotState);
 });
 app.post('/set-robot-state', (req, res) => {
-    //const state = req.body.state;
-    //robotState = state;
+    const state = req.body.state;
+    robotState = state;
     console.log("[서버 로그] 현재 로봇 상태값: " + robotState);
 });
 
@@ -266,6 +266,13 @@ let weightDetact = false;
 
 app.get('/weight-detact-success', async (req, res) =>{
     weightDetact = true;
+    clients.forEach((client) => {
+        // client !== ws는 메세지를 보낸 클라이언트가 아니라면
+        if (client !== ws && client.readyState === webSocket.OPEN) {
+            console.log("[서버 로그] 클라이언트에게 메세지 보냄");
+            client.send(data.ISBN);
+        }
+    });
     res.send(weightDetact);
 });
 app.get('/weight-detact-fail', async (req, res) =>{
