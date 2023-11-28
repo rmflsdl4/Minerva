@@ -42,7 +42,7 @@
                     const messagesArray = JSON.parse(event.data);
                     console.log(messagesArray[1] == undefined);
                     ControllerOutputBook(messagesArray[0]);
-                    SetWeightDetactText(messagesArray[1] == undefined);
+                    SetWeightDetactText(messagesArray[1] !== undefined);
                 });
                 document.getElementById('BarcodeForm').addEventListener('keydown', function(event) {
                     if (event.key === 'Enter') {
