@@ -36,7 +36,9 @@
                 // 서버로부터 메시지 수신 시
                 socket.addEventListener('message', (event) => {
                     ControllerOutputBook(event.data);
-                    SetWeightDetactText();
+                    if(event.data == "Detact"){
+                        SetWeightDetactText();
+                    }
                 });
                 document.getElementById('BarcodeForm').addEventListener('keydown', function(event) {
                     if (event.key === 'Enter') {

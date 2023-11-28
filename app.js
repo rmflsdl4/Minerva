@@ -65,7 +65,7 @@ wss.on('connection', (ws, request) => {
         // 모든 클라이언트에게 메시지 전송
         clients.forEach((client) => {
             // client !== ws는 메세지를 보낸 클라이언트가 아니라면
-            if (client !== ws && client.readyState === webSocket.OPEN) {
+            if (client !== ws && client.readyState === webSocket.OPEN && isbnData !== null) {
                 console.log("[서버 로그] 클라이언트에게 메세지 보냄");
                 client.send(data.ISBN);
             }
@@ -189,7 +189,7 @@ async function RecusionRequest(cnt){
         }
     }
     // cnt < 반복할 횟수
-    if(cnt < 20){
+    if(cnt < 1000){
         console.log("[서버 로그] isbn 값이 없어서 재귀함수 실행!  isbn 상태: " + isbnData);
         await new Promise(resolve => setTimeout(resolve, 3000));
         return await RecusionRequest(cnt + 1);
@@ -242,7 +242,7 @@ async function RecusionBarcodeScan(cnt){
         
     }
     // cnt < 반복할 횟수
-    if(cnt < 20){
+    if(cnt < 1000){
         console.log("[서버 로그] barcode 값이 없어서 재귀함수 실행!  barcode 상태: " + barcodeValue);
         await new Promise(resolve => setTimeout(resolve, 3000));
         return await RecusionBarcodeScan(cnt + 1);
@@ -268,9 +268,9 @@ app.get('/weight-detact-success', async (req, res) =>{
     weightDetact = true;
     clients.forEach((client) => {
         // client !== ws는 메세지를 보낸 클라이언트가 아니라면
-        if (client !== ws && client.readyState === webSocket.OPEN) {
+        if (client !== ws && client.readyState === webSocket.OPEN && weightDetact) {
             console.log("[서버 로그] 클라이언트에게 메세지 보냄");
-            client.send(data.ISBN);
+            client.send('Detact');
         }
     });
     res.send(weightDetact);
@@ -291,7 +291,7 @@ async function RecusionWeightDetact(cnt){
         return weightDetact;
     }
     // cnt < 반복할 횟수
-    if(cnt < 20){
+    if(cnt < 1000){
         console.log("[서버 로그] 무게 감지 재요청");
         await new Promise(resolve => setTimeout(resolve, 3000));
         return await RecusionWeightDetact(cnt + 1);
