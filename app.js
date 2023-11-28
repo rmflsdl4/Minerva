@@ -67,7 +67,9 @@ wss.on('connection', (ws, request) => {
             // client !== ws는 메세지를 보낸 클라이언트가 아니라면
             if (client !== ws && client.readyState === webSocket.OPEN && isbnData !== null) {
                 console.log("[서버 로그] 클라이언트에게 메세지 보냄");
-                client.send(data.ISBN);
+                const messages = [isbnData];
+
+                client.send(JSON.stringify(messages));
             }
         });
     });
@@ -270,8 +272,10 @@ app.get('/weight-detact-success', async (req, res) =>{
         clients.forEach((client) => {
             // client !== ws는 메세지를 보낸 클라이언트가 아니라면
             if (client.readyState === webSocket.OPEN && weightDetact) {
-                console.log("[서버 로그] 클라이언트에게 메세지 보냄");
-                client.send('Detact');
+                console.log("[서버 로그] weight 클라이언트에게 메세지 보냄");
+                const messages = [isbnData, 'Detact'];
+
+                client.send(JSON.stringify(messages));
             }
         });
     });
