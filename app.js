@@ -293,7 +293,6 @@ app.get('/weight-detact-fail', async (req, res) =>{
         }
     });
 });
-
 app.get('/request-wd', async (req, res) => {
     console.log("[서버 로그] 무게 감지 신호 요청이 들어옴!");
     
@@ -315,3 +314,20 @@ async function RecusionWeightDetact(cnt){
     }
 }
 
+app.post('/get-saved-book', async (req, res) => {
+    if(isbnData !== null){
+        const sql = `SELECT TITLE, AUTHOR, PUB, PUB_YEAR, CONCAT(SHELF_LOCATION,' 책장') as SHELF_LOCATION
+        FROM book
+        INNER JOIN book_location
+        ON book.ISBN = book_location.ISBN
+        WHERE book.ISBN = ?`
+    
+        try{
+            const bookData = await database.Query(sql, isbnData);
+            res.send(bookData);
+        }
+        catch(err){
+            console.log("[서버 로그] 오류 발생: " + err);
+        }
+    }
+});
