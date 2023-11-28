@@ -65,7 +65,7 @@ wss.on('connection', (ws, request) => {
         // 모든 클라이언트에게 메시지 전송
         clients.forEach((client) => {
             // client !== ws는 메세지를 보낸 클라이언트가 아니라면
-            if (client !== ws && client.readyState === webSocket.OPEN && isbnData !== null) {
+            if (client.readyState === webSocket.OPEN && isbnData !== null) {
                 console.log("[서버 로그] 클라이언트에게 메세지 보냄");
                 const messages = [isbnData];
 

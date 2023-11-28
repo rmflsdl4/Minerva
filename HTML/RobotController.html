@@ -7,7 +7,7 @@
         <script src="JavaScript/BookManager.js"></script>
         <title>Controller</title>
     </head>
-    <body>
+    <body onload="SetRobotStateText();">
         <div id="TopContainer">
             <div id="LogoContainer">
                 <a href="Main.html"><img src="./Images/GJU_Logo.png"></a>
@@ -28,19 +28,21 @@
             </div>
             <div><span id="bookWeightDetact"></span></div>
             <script>
-                function SetWeightDetactText(){
+                function SetWeightDetactText(boolValue){
                     const weightDetactText = document.getElementById('bookWeightDetact');
-
-                    weightDetactText.textContent = '반납함 무게 감지';
+                    if(boolValue == true){
+                        weightDetactText.textContent = '반납함 무게 감지';
+                    }
+                    else{
+                        weightDetactText.textContent = '';
+                    }
                 }   
                 // 서버로부터 메시지 수신 시
                 socket.addEventListener('message', (event) => {
                     const messagesArray = JSON.parse(event.data);
 
                     ControllerOutputBook(messagesArray[0]);
-                    if(messagesArray[1] == "Detact"){
-                        SetWeightDetactText();
-                    }
+                    SetWeightDetactText(messagesArray[1] == undefined);
                 });
                 document.getElementById('BarcodeForm').addEventListener('keydown', function(event) {
                     if (event.key === 'Enter') {
