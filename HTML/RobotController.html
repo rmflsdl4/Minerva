@@ -40,7 +40,7 @@
                 // 서버로부터 메시지 수신 시
                 socket.addEventListener('message', (event) => {
                     const messagesArray = JSON.parse(event.data);
-
+                    console.log(messagesArray[1] == undefined);
                     ControllerOutputBook(messagesArray[0]);
                     SetWeightDetactText(messagesArray[1] == undefined);
                 });
