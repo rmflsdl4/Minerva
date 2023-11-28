@@ -266,12 +266,14 @@ let weightDetact = false;
 
 app.get('/weight-detact-success', async (req, res) =>{
     weightDetact = true;
-    clients.forEach((client) => {
-        // client !== ws는 메세지를 보낸 클라이언트가 아니라면
-        if (client !== ws && client.readyState === webSocket.OPEN && weightDetact) {
-            console.log("[서버 로그] 클라이언트에게 메세지 보냄");
-            client.send('Detact');
-        }
+    wss.on('connection', (ws, request) => {
+        clients.forEach((client) => {
+            // client !== ws는 메세지를 보낸 클라이언트가 아니라면
+            if (client !== ws && client.readyState === webSocket.OPEN && weightDetact) {
+                console.log("[서버 로그] 클라이언트에게 메세지 보냄");
+                client.send('Detact');
+            }
+        });
     });
     res.send(weightDetact);
 });
