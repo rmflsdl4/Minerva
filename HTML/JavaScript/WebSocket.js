@@ -1,4 +1,4 @@
-const connectIp = "3.39.9.46";
+const connectIp = "13.209.97.234";
 const socket = new WebSocket(`ws://${connectIp}:3000`);
 
 
